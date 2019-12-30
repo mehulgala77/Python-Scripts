@@ -60,23 +60,6 @@ def isValidMove(pos, bo):
     return False
 
 
-def getNextMove(currPos, bo):
-
-    for item in directions:
-
-        nextRow = currPos[0] + item[0]
-        nextCol = currPos[1] + item[1]
-
-        if nextRow >= 0 and nextRow < len(bo):
-            if nextCol >= 0 and nextCol < len(bo[0]):
-                if bo[nextRow][nextCol] == -1:
-                    return (nextRow, nextCol)
-
-    else:
-
-        return None
-
-
 def isBoardSolved(bo):
 
     for i in range(len(bo)):

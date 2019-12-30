@@ -1,11 +1,13 @@
 
 board = [
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1]
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1]
 ]
 
 directions = [(2, -1), (2, 1), (-2, 1), (-2, -1),
@@ -24,6 +26,8 @@ def solve(currPos, moveCount, bo):
     if isBoardSolved(bo) is True:
         return True
 
+    validMoves = []
+
     # Try solution in every direction
     for item in directions:
 
@@ -32,13 +36,24 @@ def solve(currPos, moveCount, bo):
 
         if isValidMove((nextRow, nextCol), bo):
 
-            bo[nextRow][nextCol] = moveCount + 1
+            degree = getDegree((nextRow, nextCol), bo)
+            validMoves.append([degree, (nextRow, nextCol)])
 
-            if solve((nextRow, nextCol), moveCount + 1, bo) is True:
-                return True
+    validMoves.sort(key=lambda x: x[0])
 
-            # Backtrack the change
-            bo[nextRow][nextCol] = -1
+    # Try solution in every direction
+    for item in validMoves:
+
+        nextRow = item[1][0]
+        nextCol = item[1][1]
+
+        bo[nextRow][nextCol] = moveCount + 1
+
+        if solve((nextRow, nextCol), moveCount + 1, bo) is True:
+            return True
+
+        # Backtrack the change
+        bo[nextRow][nextCol] = -1
 
     else:
 
@@ -55,21 +70,20 @@ def isValidMove(pos, bo):
     return False
 
 
-def getNextMove(currPos, bo):
+def getDegree(pos, bo):
 
+    count = 0
+
+    # Try solution in every direction
     for item in directions:
 
-        nextRow = currPos[0] + item[0]
-        nextCol = currPos[1] + item[1]
+        nextRow = pos[0] + item[0]
+        nextCol = pos[1] + item[1]
 
-        if nextRow >= 0 and nextRow < len(bo):
-            if nextCol >= 0 and nextCol < len(bo[0]):
-                if bo[nextRow][nextCol] == -1:
-                    return (nextRow, nextCol)
+        if isValidMove((nextRow, nextCol), bo):
+            count += 1
 
-    else:
-
-        return None
+    return count
 
 
 def isBoardSolved(bo):
@@ -87,7 +101,7 @@ def printBoard(bo):
     for i in range(len(bo)):
 
         if i == (len(bo) // 2):
-            print("--------------------")
+            print("--------------------------")
 
         for j in range(len(bo[0])):
 
