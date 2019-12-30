@@ -1,2 +1,2 @@
 # Python-Scripts
-Python Scripts of topics (Algorithms, Data Structures, Automation, Machine learning)
+Python Scripts of topics (Python Modules, Algorithms, Data Structures, Automation, Machine learning)
