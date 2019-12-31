@@ -7,3 +7,4 @@ Python Scripts of various topics,
 4. Data Structures
 5. Automation
 6. Machine learning
+7. Mini Programs
